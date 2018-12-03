@@ -1,43 +1,33 @@
 @(widgets: Seq[Widget], form: Form[WidgetForm.Data], postUrl: Call)(implicit request: MessagesRequestHeader)
 
   @main("Widgets") {
-
+<div class="jumbotron">
+    <div class="container">
     <h1>Widgets</h1>
-
+    </div>
+</div>
     @* Flash shows updates to a page *@
     @request.flash.data.map{ case (name, value) =>
       <div>@name: @value</div>
     }
-
-    <table>
-      <thead>
-        <tr><th>Name</th><th>Price</th>
-      </thead>
-      <tbody>
+<div class="container">
+    <div class="row">
+    <div  class="col-md-3">Name</div>
+    <div  class="col-md-3">Price</div>
+    </div>
       @for(w <- widgets) {
-        <tr><td>@w.name</td><td>@w.price</td></tr>
+    <div class="row">
+        <div class="col-md-3">@w.name</div>
+        <div class="col-md-3">@w.price</div>
+    </div>
+
       }
-      </tbody>
-    </table>
 
-    <hr/>
+    <a href="@{controllers.routes.WidgetController.widgetForm}">Create a widget</a>
+</div>
 
-    @* Global errors are not tied to any particular form field *@
-    @if(form.hasGlobalErrors) {
-      @form.globalErrors.map { error: FormError =>
-        <div>
-          @error.key: @error.message
-        </div>
-      }
-    }
 
-    @helper.form(postUrl) {
-      @helper.CSRF.formField
 
-      @helper.inputText(form("name"))
 
-      @helper.inputText(form("price"))
 
-      <button>Create widget</button>
-    }
   }

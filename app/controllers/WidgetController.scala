@@ -59,4 +59,8 @@ class WidgetController @Inject()(cc: MessagesControllerComponents) extends Messa
     val formValidationResult = form.bindFromRequest
     formValidationResult.fold(errorFunction, successFunction)
   }
+
+  def widgetForm = Action { implicit request: MessagesRequest[AnyContent] =>
+    Ok(views.html.createWidget(form, postUrl))
+  }
 }

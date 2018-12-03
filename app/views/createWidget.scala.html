@@ -1,0 +1,34 @@
+@(form: Form[WidgetForm.Data], postUrl: Call)(implicit request: MessagesRequestHeader)
+
+  @main("Widgets") {
+
+    <div class="jumbotron">
+        <div class="container">
+      <h1>Create a widget</h1>
+
+    </div>
+</div>
+    @* Global errors are not tied to any particular form field *@
+    @if(form.hasGlobalErrors) {
+      @form.globalErrors.map { error: FormError =>
+        <div>
+          @error.key: @error.message
+        </div>
+      }
+    }
+
+    @helper.form(postUrl) {
+      @helper.CSRF.formField
+      <div class="container">
+      <div class="input-group">
+        @helper.inputText(form("name"))
+      </div>
+      
+      <div class="input-group">
+            @helper.inputText(form("price"))
+      </div>
+
+      <button class="btn-success">Create widget</button>
+      </div>
+    }
+  }
